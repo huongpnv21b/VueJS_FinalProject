@@ -1,0 +1,401 @@
+<template>
+<div class="chitietSanpham">
+              <h1 class="title" v-html="product.name"></h1>
+            <div class="rowdetail">
+                <div class="picture">
+                    <img :src="product.image" :alt="product.name">
+                </div>
+                <div class="price_sale">
+                    <div class="area_price"><strong>{{product.price}}đ </strong></div>
+                    <div class="ship" style="display: none;">
+                        <img src="img/chitietsanpham/clock-152067_960_720.png">
+                        <div>NHẬN HÀNG TRONG 1 GIỜ</div>
+                    </div>
+                    <div class="area_promo">
+                        <strong>khuyến mãi</strong>
+                        <div class="promo">
+                            <img src="img/chitietsanpham/icon-tick.png">
+                            <div id="detailPromo"> </div>
+                        </div>
+                    </div>
+                    <div class="policy">
+                        <div>
+                            <img src="img/chitietsanpham/box.png">
+                            <p>Trong hộp có: Sạc, Tai nghe, Sách hướng dẫn, Cây lấy sim, Ốp lưng </p>
+                        </div>
+                        <div>
+                            <img src="img/chitietsanpham/icon-baohanh.png">
+                            <p>Bảo hành chính hãng 12 tháng.</p>
+                        </div>
+                        <div class="last">
+                            <img src="img/chitietsanpham/1-1.jpg">
+                            <p>1 đổi 1 trong 1 tháng nếu lỗi, đổi sản phẩm tại nhà trong 1 ngày.</p>
+                        </div>
+                    </div>
+                    <div class="area_order">
+                        <router-link :to="{ path: '/checkout?pid='+product.id }" class="buy_now">
+                            <b><i class="fa fa-money-bill-alt"></i> Mua ngày</b>
+                            <p>Giao trong 1 giờ hoặc nhận tại cửa hàng</p>
+                        </router-link>
+                    </div>
+                </div>
+                <div class="info_product">
+                    <h2>Lưu ý</h2>
+                    <ul class="info">
+                        <p>Số lượng hợp lệ: {{product.units}}</p>
+                    </ul>
+                </div>
+            </div>
+        </div>
+</template>
+
+<script>
+    export default {
+        data(){
+            return {
+                product : []
+            }
+        },
+        beforeMount(){
+            let url = `/api/products/${this.$route.params.id}`
+            axios.get(url).then(response => this.product = response.data)      
+        }
+    }
+</script>
+
+<style scoped>
+   /* Phải thêm .chitietSanpham để không trùng với h1 của taikhoan */
+   .chitietSanpham{
+       height: 410px;
+   }
+.chitietSanpham h1 {
+    display: block;
+    margin: 0 0 0 10px;
+    float: left;
+    overflow: hidden;
+    /*khi k đủ chứa text thì phần text bị dư sẽ giấu đi*/
+    font-size: 24px;
+    color: #333;
+    line-height: 40px;
+    /*tăng khoảng cách dòng*/
+}
+
+
+.rowdetail {
+    display: block;
+    border-top: 1px solid #e5e5e5;
+    padding: 15px 0;
+    margin-top: 5px;
+    clear: both;
+}
+
+.overlaycertainimg {
+    z-index: 14;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    /*Định vị cho thành phần theo cửa sổ trình duyệt*/
+    /*Cho nằm lên trên màn hình*/
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, .95);
+    transform: scale(0);
+    transition: .2s ease;
+}
+.overlaycertainimg-content img {
+    background-color: #fff;
+}
+
+.overlaycertainimg-content img.bigimg {
+    /*hình lớn ở certainimg*/
+    height: 540px;
+    display: block;
+    margin: auto;
+}
+
+.overlaycertainimg-content .div_smallimg
+
+/*hình nhỏ ở certainimg*/
+    {
+    display: block;
+    margin-top: 25px;
+    width: 100%;
+    text-align: center;
+}
+
+.overlaycertainimg-content .div_smallimg:hover {
+    background-color: #222;
+}
+
+.overlaycertainimg-content .div_smallimg img {
+    width: 120px;
+    height: 90px;
+    transform: scale(0.95);
+}
+
+.overlaycertainimg-content .div_smallimg img:hover {
+    transform: scale(1);
+}
+
+.picture {
+    float: left;
+    overflow: hidden;
+    width: 170px;
+    position: relative;
+    /*định vị trí phụ thuộc vào thành phần bao ngoài*/
+    display: block;
+}
+
+.picture img {
+    display: block;
+    margin: auto;
+    width: auto;
+    height: auto;
+    cursor: pointer;
+    /*thay đổi trỏ chuột đi đưa vào*/
+    max-width: 100%;
+}
+
+.price_sale {
+    float: left;
+    position: relative;
+    width: 33%;
+    display: block;
+}
+
+.area_price {
+    display: block;
+    overflow: hidden;
+    line-height: 20px;
+    padding: 0 10px 10px;
+}
+
+.area_price strong {
+    display: inline-block;
+    /*hối nội tuyến*/
+    overflow: hidden;
+    font-size: 24px;
+    color: #e10c00;
+    vertical-align: middle;
+    /*thành phần sẽ đc canh giữa theo thành phần bao ngoài*/
+    margin-right: 10px;
+}
+
+.area_price span {
+    /* giá tiền gạch ngang */
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 20px;
+    text-decoration: line-through;
+    margin-left: 5px;
+    color: #222;
+}
+
+.area_price label {
+    display: inline-block;
+    position: relative;
+    font-size: 11px;
+    color: #fff;
+    font-weight: 600;
+    /*hiển thị chữ đậm hay chữ thường*/
+    border-radius: 3px;
+    padding: 0 5px 0 8px;
+    height: 18px;
+}
+
+.area_price label.tragop {
+    background: #f28902;
+    margin: 0 0 0 5px;
+}
+
+.area_price label.giamgia {
+    background-image: -webkit-gradient(linear, left top, right top, from(#ff9c00), to(#ec1f1f));
+    background-image: -webkit-linear-gradient(left, #ff9c00 0%, #ec1f1f 100%);
+    background-image: -o-linear-gradient(left, #ff9c00 0%, #ec1f1f 100%);
+    background-image: linear-gradient(90deg, #ff9c00 0%, #ec1f1f 100%);
+    margin: 0 0 0 5px;
+}
+
+.area_price label.moiramat {
+    background: #1191f8;
+    margin: 0 0 0 5px;
+}
+
+.area_price label.giareonline {
+    background: #3fb846;
+    margin: 0 0 0 5px;
+}
+
+.ship {
+    background-color: #ecf7ed;
+    border-radius: 3px;
+    border: 1px solid #c4ddc8;
+    margin: 5px 10px 10px;
+    padding: 0 10px;
+    font-weight: bold;
+    line-height: 30px;
+}
+
+.ship img {
+    width: 19px;
+    height: 21px;
+    margin: 4px 10px 0 0;
+    float: left;
+}
+
+.ship div {
+    border-left: 1px solid #c4ddc8;
+    display: block;
+    line-height: 30px;
+    padding-left: 10px;
+    margin-left: 28px;
+    color: #30a43b;
+    max-width: 1200px;
+}
+
+.area_promo {
+    border: 1px solid #ddd;
+    display: block;
+    overflow: hidden;
+    border-radius: 4px;
+    position: relative;
+    margin: 5px 10px 12px;
+    padding-bottom: 10px;
+}
+
+.area_promo strong {
+    display: block;
+    overflow: hidden;
+    font-size: 15px;
+    padding: 15px 15px 10px 15px;
+    text-transform: uppercase;
+    /*Viết thành chữ hoa*/
+}
+
+.area_promo .promo {
+    display: block;
+    overflow: hidden;
+    font-size: 14px;
+    padding: 0 15px 5px 40px;
+}
+
+.promo img {
+    width: 14px;
+    height: 14px;
+    float: left;
+    margin: 2px 0 0 -20px;
+}
+
+.area_order {
+    display: block;
+    overflow: hidden;
+    margin: 10px;
+}
+
+.area_order .buy_now {
+    display: block;
+    overflow: hidden;
+    padding: 7px 0;
+    border-radius: 4px;
+    font-size: 16px;
+    line-height: normal;
+    color: #fff;
+    text-align: center;
+    background: -webkit-linear-gradient(top, #f59000, #fd6e1d);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.area_order .buy_now:hover {
+    background: -webkit-linear-gradient(top, #fd6e1d, #f59000);
+}
+
+.area_order .buy_now p {
+    display: block;
+    font-size: 13px;
+    margin: 3px 0;
+}
+
+.policy {
+    display: block;
+    overflow: hidden;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    padding-top: 10px;
+    margin: 0 10px 10px 10px;
+    padding-bottom: 5px;
+}
+
+.policy div {
+    display: block;
+    overflow: hidden;
+    padding: 5px 0 5px 5px;
+    font-size: 14px;
+    line-height: 20px;
+    margin: 0 10px;
+    border-bottom: 1px solid #f0f0f0;
+    position: relative;
+}
+
+.policy div img {
+    background: #fff;
+    display: block;
+    width: 20px;
+    height: 17px;
+    float: left;
+    margin: 3px;
+}
+
+.policy div p {
+    margin: 0 0 0 28px;
+    color: #288ad6;
+}
+
+.policy div.last {
+    border-bottom: 0px;
+}
+
+.info_product {
+    width: 33%;
+    border: 1px solid #ddd;
+    float: left;
+    border-radius: 3px;
+    display: block;
+}
+
+.info_product h2 {
+    text-align: center;
+    font-size: 20px;
+    padding: 10px;
+}
+
+.info {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    padding: 0 5px;
+}
+
+.info li {
+    list-style: none;
+    display: table;
+    border-top: 1px solid #eee;
+    width: 100%;
+    padding: 5px 0;
+}
+
+.info li p {
+    clear: both;
+    float: left;
+    margin: 5px 0;
+    width: 40%;
+    color: #666;
+}
+
+.info li div {
+    width: 60%;
+    float: left;
+    margin: 5px 0;
+    color: #333;
+}
+</style>
