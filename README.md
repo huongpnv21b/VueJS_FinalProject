@@ -13,3 +13,8 @@
 8. php artisan serve
 9. npm run dev
 10. npm run prod
+### Member
++ [Hồ Thị Mai](https://github.com/MaiHoThi)
++ [Đặng Văn Nhàng](https://github.com/dangvannhang)
++ [Nguyễn Thành Long](https://github.com/nguyenthanhlong11)
++ [Nguyễn Thị Hoàng Hương](https://github.com/huongpnv21b)
